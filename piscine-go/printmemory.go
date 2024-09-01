@@ -1,28 +1,27 @@
 package piscine
 
 import (
-	"fmt"
-
 	"github.com/01-edu/z01"
 )
 
-func isLetter(b byte) bool {
-	if (b >= 65 && b <= 90) || (b >= 97 && b <= 122) {
-		return true
-	}
-	return false
-}
-
 func PrintMemory(arr [10]byte) {
-	for _, v := range arr {
-		if !isLetter(v) {
-			v = '.'
+	rs := ""
+	for i, v := range arr {
+		str := tohex(v)
+		printstr(str)
+		if v < 33 || v > 126 {
+			rs += "."
+		} else {
+			rs += string(v)
 		}
-		if isLetter(v) {
-			fmt.Println(tohex(int(v)))
+		if (i+1)%4 != 0 && i != len(arr)-1 {
+			printstr(" ")
+		} else {
+			printstr("\n")
 		}
-
 	}
+	rs += "\n"
+	printstr(rs)
 }
 
 func printstr(s string) {
@@ -31,11 +30,7 @@ func printstr(s string) {
 	}
 }
 
-func tohex(n int) string {
-	hex, rs := "0123456789abcdef", ""
-	for n > 0 {
-		rs = string(hex[n%16]) + rs
-		n /= 16
-	}
-	return rs
+func tohex(n byte) string {
+	hex := "0123456789abcdef"
+	return string(hex[n/16]) + string(hex[n%16])
 }
